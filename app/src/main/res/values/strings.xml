@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Get a loan</string>
+    <string name="get_a_loan">Get a loan</string>
+    <string name="login_button">Log in</string>
+    <string name="signup_button">Sign up</string>
+    <string name="email">Email</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="password">Password</string>
+    <string name="passwordConf">Confirm Password</string>
+    <string name="back_button">Back</string>
+    <string name="repayment_apr_description_label">Total repayment amount has interest rate and fee amount included. Loan annual percentage rate (APR) is %s</string>
+    <string name="slider_max">Max</string>
+    <string name="slider_amount">Amount</string>
+    <string name="slider_period">Period</string>
+    <string name="month">mo.</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
