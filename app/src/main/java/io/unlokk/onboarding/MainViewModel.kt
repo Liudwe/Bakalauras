@@ -28,6 +28,7 @@ class MainViewModel @Inject constructor(
     val calculatedOffer = MutableLiveData<List<LoanIssuanceDetailsAdapterItem>>()
     val sliderConfiguration = MutableLiveData<SliderConfiguration>()
     val annualPercentageRate = MutableLiveData<AnnualPercentageValue>()
+    var fullAmount: Double = 0.0
     private val service = APIClient.getClient()?.create(APIInterface::class.java)
 
     fun initializeLoanOfferOptions() {
@@ -60,6 +61,7 @@ class MainViewModel @Inject constructor(
                 response.body()?.let {
                     calculatedOffer.postValue(offerCalculationFactory.getItems(it))
                     annualPercentageRate.postValue(annualPercentageRateFactory.getAPR(it))
+                    fullAmount = it.totalAmount.amount
                 }
             }
 

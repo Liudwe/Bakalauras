@@ -25,12 +25,9 @@ import io.unlokk.onboarding.LoanIssuanceDetailsAdapter
 import io.unlokk.onboarding.MainViewModel
 import io.unlokk.onboarding.app
 import io.unlokk.onboarding.data.OptionListData
-import io.unlokk.onboarding.entities.LoanRealmInfo
 import io.unlokk.onboarding.entities.RealmLoanDetails
 import io.unlokk.onboarding.entities.SliderConfiguration
 import io.unlokk.onboarding.setDivider
-import org.bson.types.ObjectId
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -55,10 +52,11 @@ class ApplyLoanFragment : Fragment() {
         setupRecyclerView()
 
         binding.confirmationButton.setOnClickListener{
-            val realmLoanInfo = RealmLoanDetails(fullLoan = 800, loanPaid = 200, nextLoanPayment = 200, _partition = user?.id.toString())
+            val realmLoanInfo = RealmLoanDetails(fullLoan = 1200, loanPaid = 200, nextLoanPayment = 200, _partition = user?.id.toString())
             realm.executeTransactionAsync { realm ->
-                realm.insert(realmLoanInfo)
+                //realm.insert(realmLoanInfo)
                 Log.d("Tag", user!!.id.toString())
+                Log.d("Tag", mainViewModel.fullAmount.toString()) //tikrinu ar galiu paimt duomenis is viewmodelio kad galėčiau su jais applyint paskola
             }
         }
         return view

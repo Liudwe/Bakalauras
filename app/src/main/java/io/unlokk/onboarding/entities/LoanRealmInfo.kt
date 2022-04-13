@@ -11,4 +11,4 @@ open class LoanRealmInfo(
     var _partition: String = "Public"
 ): RealmObject() {
     @PrimaryKey var _id: ObjectId = ObjectId()
-}
+} // ištrinti, pagal tutoriala darant tikrinau ar apskritai veikia kodas pačiu paprasčiausiu būdu

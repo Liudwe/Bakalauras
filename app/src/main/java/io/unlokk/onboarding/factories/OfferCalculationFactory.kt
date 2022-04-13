@@ -4,6 +4,7 @@ import io.unlokk.onboarding.data.OfferCalculationData
 import io.unlokk.onboarding.entities.LoanIssuanceDetailsAdapterItem
 import javax.inject.Inject
 
+
 class OfferCalculationFactory @Inject constructor() {
     fun getItems(calculationOffers: OfferCalculationData): List<LoanIssuanceDetailsAdapterItem> {
         return listOf(
