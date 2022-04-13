@@ -27,23 +27,23 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/email_textView"
+            android:id="@+id/username_textView"
             android:layout_width="0dp"
             android:layout_height="30dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="100dp"
             android:layout_marginEnd="32dp"
             android:fontFamily="@font/ttnorms_regular"
-            android:text="@string/email"
+            android:text="@string/username"
             android:textAlignment="center"
             android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@id/email_editText"
+            app:layout_constraintBottom_toTopOf="@id/username_editText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/email_editText"
+            android:id="@+id/username_editText"
             android:layout_width="0dp"
             android:layout_height="50dp"
             android:layout_marginStart="32dp"
@@ -54,7 +54,7 @@
             app:layout_constraintBottom_toTopOf="@id/password_textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_textView"
+            app:layout_constraintTop_toBottomOf="@id/username_textView"
             tools:layout_editor_absoluteX="85dp"
             tools:layout_editor_absoluteY="298dp" />
 
@@ -72,7 +72,7 @@
             app:layout_constraintBottom_toTopOf="@id/psw_editText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_editText" />
+            app:layout_constraintTop_toBottomOf="@id/username_editText" />
 
         <EditText
             android:id="@+id/psw_editText"

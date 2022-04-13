@@ -1,15 +1,34 @@
-/*
 package io.unlokk.onboarding
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import androidx.room.FtsOptions
+import com.example.intern.R
 import com.example.intern.databinding.AdapterActiveLoansItemBinding
 import io.unlokk.onboarding.entities.LoanIssuanceDetailsAdapterItem
 import com.example.intern.databinding.AdapterLoanIssuanceDetailsItemBinding
+import io.realm.OrderedRealmCollection
+import io.realm.RealmRecyclerViewAdapter
+import io.realm.RealmResults
 import io.unlokk.onboarding.entities.ActiveLoanDetailsAdapterItem
+import io.unlokk.onboarding.entities.RealmLoanDetails
 import io.unlokk.onboarding.fragments.DashboardFragment
-class ActiveLoansAdapter(
+
+
+/*class ActiveLoansAdapter(data: OrderedRealmCollection<RealmLoanDetails>): RealmRecyclerViewAdapter<RealmLoanDetails, DetailsHolder>(data, true) {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailsHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_active_loans_item, parent, false)
+        return DetailsHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: DetailsHolder, position: Int) {
+        val loan = getItem(position)
+        holder.bindValues(loan!!)
+    }
+}*/
+
+/*class ActiveLoansAdapter(
     private val context: DashboardFragment,
     private var activeLoanList: List<ActiveLoanDetailsAdapterItem> = emptyList()
 ) : RecyclerView.Adapter<ActiveLoansAdapter.ViewHolder>() {
@@ -38,10 +57,9 @@ class ActiveLoansAdapter(
     }
 
     fun updateList(
-        items: List<ActiveLoanDetailsAdapterItem>
+        items: RealmResults<RealmLoanDetails>
     ) {
         activeLoanList = items
         notifyDataSetChanged()
     }
-}
-*/
+}*/

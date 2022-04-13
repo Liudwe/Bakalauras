@@ -1,18 +1,33 @@
 package io.unlokk.onboarding
 
+import android.graphics.Color
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.Spannable
+import android.text.SpannableString
+import android.text.style.ForegroundColorSpan
+import android.text.style.StyleSpan
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.transition.TransitionManager
 import com.example.intern.R
 import com.example.intern.databinding.ActivityMainBinding
-import com.mongodb.MongoClient
-import com.mongodb.MongoClientURI
 import dagger.hilt.android.AndroidEntryPoint
+import io.realm.Realm
+import io.realm.mongodb.User
+import io.realm.mongodb.sync.SyncConfiguration
+import io.unlokk.onboarding.data.OptionListData
+import io.unlokk.onboarding.entities.LoanRealmInfo
+import io.unlokk.onboarding.entities.SliderConfiguration
 import io.unlokk.onboarding.fragments.ApplyLoanFragment
 import io.unlokk.onboarding.fragments.DashboardFragment
 import io.unlokk.onboarding.fragments.ProfileFragment
+import org.bson.types.ObjectId
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -34,7 +49,7 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(dashboardFragment)
 
         binding.bottomNavigation.setOnNavigationItemSelectedListener {
-            when(it.itemId){
+            when (it.itemId) {
                 R.id.ic_dashboard -> replaceFragment(dashboardFragment)
                 R.id.ic_apply -> replaceFragment(applyLoanFragment)
                 R.id.ic_profile -> replaceFragment(profileFragment)
@@ -44,19 +59,20 @@ class MainActivity : AppCompatActivity() {
 
         /*recyclerAdapter = LoanIssuanceDetailsAdapter(this)*/
         mainViewModel.initializeLoanOfferOptions()
-/*        observeChanges()
+        /*observeChanges()
         setupRecyclerView()*/
     }
 
-    private fun replaceFragment(fragment: Fragment){
-        if(fragment != null){
+
+    private fun replaceFragment(fragment: Fragment) {
+        if (fragment != null) {
             val transaction = supportFragmentManager.beginTransaction()
             transaction.replace(R.id.fragment_container, fragment)
             transaction.commit()
         }
     }
 
-/*    private fun observeChanges() {
+    /*private fun observeChanges() {
         mainViewModel.sliderConfiguration.observe(this) {
             configureSlider(configuration = it)
             configureAmountOfferValues(configuration = it.optionList)
@@ -110,7 +126,7 @@ class MainActivity : AppCompatActivity() {
 
             TransitionManager.beginDelayedTransition(binding.root)
             containerView.visibility = View.VISIBLE
-            progress.visibility = View.GONE
+            *//*progress.visibility = View.GONE*//*
         }
     }
 

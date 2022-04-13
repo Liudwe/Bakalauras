@@ -8,7 +8,7 @@ import com.example.intern.databinding.AdapterLoanIssuanceDetailsItemBinding
 import io.unlokk.onboarding.fragments.ApplyLoanFragment
 
 class LoanIssuanceDetailsAdapter(
-    private val context: ApplyLoanFragment, //mainactivity jeigu main acitivity sedi
+    private val context: ApplyLoanFragment, // Kuriame fragment'e/activity naudoju
     private var loanIssuanceList: List<LoanIssuanceDetailsAdapterItem> = emptyList()
 ) : RecyclerView.Adapter<LoanIssuanceDetailsAdapter.ViewHolder>() {
     inner class ViewHolder(bind: AdapterLoanIssuanceDetailsItemBinding) :

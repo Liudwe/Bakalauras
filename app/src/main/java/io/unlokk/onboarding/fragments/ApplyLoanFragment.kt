@@ -7,6 +7,7 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,21 +18,32 @@ import androidx.transition.TransitionManager
 import com.example.intern.R
 import com.example.intern.databinding.FragmentApplyLoanBinding
 import dagger.hilt.android.AndroidEntryPoint
+import io.realm.Realm
+import io.realm.mongodb.User
+import io.realm.mongodb.sync.SyncConfiguration
 import io.unlokk.onboarding.LoanIssuanceDetailsAdapter
 import io.unlokk.onboarding.MainViewModel
+import io.unlokk.onboarding.app
 import io.unlokk.onboarding.data.OptionListData
+import io.unlokk.onboarding.entities.LoanRealmInfo
+import io.unlokk.onboarding.entities.RealmLoanDetails
 import io.unlokk.onboarding.entities.SliderConfiguration
 import io.unlokk.onboarding.setDivider
+import org.bson.types.ObjectId
+import java.util.*
 
 
 @AndroidEntryPoint
 class ApplyLoanFragment : Fragment() {
 
+    private lateinit var realm: Realm
+    private var user: User? = null
     private lateinit var recyclerAdapter: LoanIssuanceDetailsAdapter
     private lateinit var binding: FragmentApplyLoanBinding
     private val mainViewModel: MainViewModel by activityViewModels()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         super.onCreate(savedInstanceState)
@@ -41,7 +53,35 @@ class ApplyLoanFragment : Fragment() {
         recyclerAdapter = LoanIssuanceDetailsAdapter(this)
         observeChanges()
         setupRecyclerView()
+
+        binding.confirmationButton.setOnClickListener{
+            val realmLoanInfo = RealmLoanDetails(fullLoan = 800, loanPaid = 200, nextLoanPayment = 200, _partition = user?.id.toString())
+            realm.executeTransactionAsync { realm ->
+                realm.insert(realmLoanInfo)
+                Log.d("Tag", user!!.id.toString())
+            }
+        }
         return view
+    }
+
+    override fun onStart() {
+        super.onStart()
+        user = app.currentUser()
+        val partitionValue:String = user?.id.toString()
+        val config = SyncConfiguration.Builder(user,partitionValue)
+            .waitForInitialRemoteData()
+            .build()
+
+        Realm.getInstanceAsync(config, object : Realm.Callback() {
+            override fun onSuccess(realm: Realm) {
+                this@ApplyLoanFragment.realm = realm
+            }
+        })
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        realm.close()
     }
 
     private fun observeChanges() {
@@ -114,7 +154,7 @@ class ApplyLoanFragment : Fragment() {
         }
     }
 
-   private fun setupRecyclerView() {
+    private fun setupRecyclerView() {
         binding.recyclerView.setDivider(R.drawable.recycler_view_divider)
         binding.recyclerView.layoutManager = LinearLayoutManager(activity?.applicationContext)
         binding.recyclerView.adapter = recyclerAdapter

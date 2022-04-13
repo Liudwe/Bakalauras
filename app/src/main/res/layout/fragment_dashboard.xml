@@ -63,7 +63,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/loanContainer"
-        tools:listitem="@layout/adapter_loan_issuance_details_item" />
+        tools:listitem="@layout/adapter_active_loans_item" />
 
     <!--    <TextView
             android:id="@+id/apr_textView"

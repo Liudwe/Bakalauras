@@ -17,15 +17,16 @@ class SignUpActivity: AppCompatActivity() {
             setContentView(binding.root)
 
             binding.signupButton.setOnClickListener {
-                val password_text = binding.pswEditText.toString()
-                val email_text = binding.emailEditText.text
+                val name = binding.nameEditText.text
+                val password_text = binding.pswEditText.text
+                /*val email_text = binding.emailEditText.text
                 val email: String = email_text.toString().trim()
                 val emailPattern = Regex("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")
 
                 if (email.matches(emailPattern)) {
                     Toast.makeText(
                         getApplicationContext(),
-                        "valid email address",
+                        password_text.toString(),
                         Toast.LENGTH_SHORT
                     ).show();
                 } else {
@@ -35,12 +36,18 @@ class SignUpActivity: AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show();
                 }
-
                 Toast.makeText(this@SignUpActivity, email_text, Toast.LENGTH_SHORT).show()
-                Log.d("Tag", email_text.toString())
+                Log.d("Tag", email_text.toString())*/
 
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
+                app.emailPassword.registerUserAsync(name.toString(), password_text.toString()) {
+                    if(it.isSuccess){
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        Log.d("Tag", "User successfully registered")
+                    } else {
+                        startActivity(Intent(this, LoginActivity::class.java))
+                        Log.d("Tag", "Could not register user.")
+                    }
+                }
             }
 
             binding.backButton.setOnClickListener {
