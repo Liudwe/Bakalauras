@@ -1,65 +1,52 @@
 package io.unlokk.onboarding
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import androidx.room.FtsOptions
 import com.example.intern.R
-import com.example.intern.databinding.AdapterActiveLoansItemBinding
-import io.unlokk.onboarding.entities.LoanIssuanceDetailsAdapterItem
-import com.example.intern.databinding.AdapterLoanIssuanceDetailsItemBinding
 import io.realm.OrderedRealmCollection
 import io.realm.RealmRecyclerViewAdapter
-import io.realm.RealmResults
-import io.unlokk.onboarding.entities.ActiveLoanDetailsAdapterItem
 import io.unlokk.onboarding.entities.RealmLoanDetails
-import io.unlokk.onboarding.fragments.DashboardFragment
+import java.text.SimpleDateFormat
+import java.util.*
 
+class ActiveLoansAdapter(data: OrderedRealmCollection<RealmLoanDetails>) : RealmRecyclerViewAdapter<RealmLoanDetails, ActiveLoansAdapter.DetailsViewHolder>(data, true) {
 
-/*class ActiveLoansAdapter(data: OrderedRealmCollection<RealmLoanDetails>): RealmRecyclerViewAdapter<RealmLoanDetails, DetailsHolder>(data, true) {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailsHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.adapter_active_loans_item, parent, false)
-        return DetailsHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailsViewHolder {
+        val view: View =
+            LayoutInflater.from(parent.context).inflate(R.layout.adapter_active_loans_item, parent, false)
+        return DetailsViewHolder(view)
+
     }
 
-    override fun onBindViewHolder(holder: DetailsHolder, position: Int) {
-        val loan = getItem(position)
-        holder.bindValues(loan!!)
-    }
-}*/
-
-/*class ActiveLoansAdapter(
-    private val context: DashboardFragment,
-    private var activeLoanList: List<ActiveLoanDetailsAdapterItem> = emptyList()
-) : RecyclerView.Adapter<ActiveLoansAdapter.ViewHolder>() {
-    inner class ViewHolder(bind: AdapterActiveLoansItemBinding) :
-        RecyclerView.ViewHolder(bind.root) {
-        var binding: AdapterActiveLoansItemBinding = bind
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        return ViewHolder(AdapterActiveLoansItemBinding.inflate(inflater, parent, false))
-    }
-
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = activeLoanList[position]
-        with(holder.binding) {
-            loanAmount.text = item.fullPayment
-            repaidLoan.text = item.repaidLoan
-            nextPayment.text = item.nextPaymentData
-            payment.text = item.nextPaymentValue
+    override fun onBindViewHolder(holder: DetailsViewHolder, position: Int) {
+        val details = getItem(position)
+        if (details != null) {
+            holder.bindValues(details)
         }
     }
 
-    override fun getItemCount(): Int {
-        return activeLoanList.size
+    inner class DetailsViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        var fullLoan: TextView = view.findViewById(R.id.loan_amount)
+        var paidLoan: TextView = view.findViewById(R.id.repaid_loan)
+        var date: TextView = view.findViewById(R.id.next_payment)
+        var payment: TextView = view.findViewById(R.id.payment)
+
+        fun bindValues(realmLoanDetails: RealmLoanDetails){
+            fullLoan.text = realmLoanDetails.fullLoan.toString()
+            paidLoan.text = realmLoanDetails.loanPaid.toString()
+            val dateTemp = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH).parse(realmLoanDetails.date.toString())
+            val formattedDateTemp = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(dateTemp)
+            date.text = formattedDateTemp
+            payment.text = realmLoanDetails.nextLoanPayment.toString()
+        }
     }
 
-    fun updateList(
-        items: RealmResults<RealmLoanDetails>
-    ) {
-        activeLoanList = items
-        notifyDataSetChanged()
-    }
-}*/
+}
+
+
+
+
+

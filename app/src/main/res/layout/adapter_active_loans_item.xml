@@ -8,53 +8,106 @@
     android:paddingEnd="16dp">
 
     <TextView
+        android:id="@+id/loan_amount_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ttnorms_regular"
+        android:layout_marginTop="7dp"
+        android:text="@string/loan_taken"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.5" />
+
+
+    <TextView
         android:id="@+id/loan_amount"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/ttnorms_regular"
         android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@id/next_payment"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="7dp"
+        app:layout_constraintStart_toEndOf="@id/loan_amount_text"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.5"
-        tools:text="Loan taken: 1500€" />
+        tools:text="0€" />
+
+    <TextView
+        android:id="@+id/repaid_loan_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ttnorms_regular"
+        android:layout_marginTop="7dp"
+        android:text="@string/repaid_loan"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/repaid_loan"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.5" />
 
     <TextView
         android:id="@+id/repaid_loan"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/ttnorms_bold"
+        android:fontFamily="@font/ttnorms_regular"
+        android:layout_marginTop="7dp"
         android:gravity="end"
         android:textAlignment="viewEnd"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toTopOf="@id/payment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.5"
-        tools:text="Repaid loan: 0€" />
+        tools:text="0€" />
+
+    <TextView
+        android:id="@+id/next_payment_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ttnorms_regular"
+        android:layout_marginBottom="7dp"
+        android:text="@string/next_payment_date"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.5" />
 
     <TextView
         android:id="@+id/next_payment"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/ttnorms_regular"
+        android:layout_marginBottom="7dp"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@id/next_payment_text"
         app:layout_constraintWidth_percent="0.5"
-        tools:text="Next Payment: 2022.05.08" />
+        tools:text="0€" />
+
+    <TextView
+        android:id="@+id/payment_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/ttnorms_regular"
+        android:layout_marginBottom="7dp"
+        android:text="@string/payment_amount"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/payment"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintWidth_percent="0.5" />
 
     <TextView
         android:id="@+id/payment"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/ttnorms_regular"
+        android:layout_marginBottom="7dp"
         android:gravity="end"
         android:textAlignment="viewEnd"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0.5"
-        tools:text="Payment amount: 300€" />
+        tools:text="0€" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
