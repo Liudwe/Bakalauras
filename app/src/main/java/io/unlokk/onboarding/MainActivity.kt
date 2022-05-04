@@ -21,7 +21,6 @@ import io.realm.Realm
 import io.realm.mongodb.User
 import io.realm.mongodb.sync.SyncConfiguration
 import io.unlokk.onboarding.data.OptionListData
-import io.unlokk.onboarding.entities.LoanRealmInfo
 import io.unlokk.onboarding.entities.SliderConfiguration
 import io.unlokk.onboarding.fragments.ApplyLoanFragment
 import io.unlokk.onboarding.fragments.DashboardFragment

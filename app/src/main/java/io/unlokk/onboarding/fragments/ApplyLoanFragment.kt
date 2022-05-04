@@ -8,10 +8,10 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.transition.TransitionManager
@@ -19,15 +19,23 @@ import com.example.intern.R
 import com.example.intern.databinding.FragmentApplyLoanBinding
 import dagger.hilt.android.AndroidEntryPoint
 import io.realm.Realm
+import io.realm.RealmList
 import io.realm.mongodb.User
 import io.realm.mongodb.sync.SyncConfiguration
 import io.unlokk.onboarding.LoanIssuanceDetailsAdapter
 import io.unlokk.onboarding.MainViewModel
 import io.unlokk.onboarding.app
+import io.unlokk.onboarding.data.LoanPaymentInfo
 import io.unlokk.onboarding.data.OptionListData
 import io.unlokk.onboarding.entities.RealmLoanDetails
+import io.unlokk.onboarding.entities.RealmLoanDetails3
 import io.unlokk.onboarding.entities.SliderConfiguration
 import io.unlokk.onboarding.setDivider
+import org.bson.types.ObjectId
+import org.joda.time.DateTime
+import org.joda.time.LocalDate
+import java.time.temporal.TemporalQueries.localDate
+import java.util.*
 
 
 @AndroidEntryPoint
@@ -51,12 +59,36 @@ class ApplyLoanFragment : Fragment() {
         observeChanges()
         setupRecyclerView()
 
-        binding.confirmationButton.setOnClickListener{
-            val realmLoanInfo = RealmLoanDetails(fullLoan = 1200, loanPaid = 200, nextLoanPayment = 200, _partition = user?.id.toString())
+        binding.confirmationButton.setOnClickListener {
+            val testObj = RealmList<LoanPaymentInfo>()
+            for (i in 1..binding.termSlider.currentValue) // loop to create list of objects of loan payment end dates
+                testObj.add(
+                    LoanPaymentInfo(
+                        endDate = DateTime.now().plusMonths(i).toDate(),
+                        paidDate = Date(),
+                        _partition = user?.id.toString()
+                    )
+                )
+            //val endDate = DateTime.now().plusMonths(binding.termSlider.currentValue).toDate()
+            /*val realmLoanInfo = RealmLoanDetails(
+                fullLoan = mainViewModel.fullAmount.toInt(),
+                loanPaid = 200,
+                nextLoanPayment = mainViewModel.monthlyPayment.toInt(),
+                _partition = user?.id.toString()
+            )*/
+            val testTemp = RealmLoanDetails3(
+                fullLoan = mainViewModel.fullAmount,
+                loanTaken = binding.amountSlider.currentValue.toDouble(),
+                term = binding.termSlider.currentValue,
+                nextLoanPayment = mainViewModel.monthlyPayment,
+                _partition = user?.id.toString(),
+                endDateList = testObj
+            )
             realm.executeTransactionAsync { realm ->
-                //realm.insert(realmLoanInfo)
-                Log.d("Tag", user!!.id.toString())
-                Log.d("Tag", mainViewModel.fullAmount.toString()) //tikrinu ar galiu paimt duomenis is viewmodelio kad galėčiau su jais applyint paskola
+                realm.insert(testTemp)
+                // Log.d("Tag", user!!.id.toString())
+                //Log.d("Tag", mainViewModel.fullAmount.toString()) //tikrinu ar galiu paimt duomenis is viewmodelio kad galėčiau su jais applyint paskola
+                //Log.d("Tag", mainViewModel.monthlyPayment.toString()) //tikrinu ar galiu paimt duomenis is viewmodelio kad galėčiau su jais applyint paskola
             }
         }
         return view
@@ -65,8 +97,8 @@ class ApplyLoanFragment : Fragment() {
     override fun onStart() {
         super.onStart()
         user = app.currentUser()
-        val partitionValue:String = user?.id.toString()
-        val config = SyncConfiguration.Builder(user,partitionValue)
+        val partitionValue: String = user?.id.toString()
+        val config = SyncConfiguration.Builder(user, partitionValue)
             .waitForInitialRemoteData()
             .build()
 
@@ -158,5 +190,4 @@ class ApplyLoanFragment : Fragment() {
         binding.recyclerView.adapter = recyclerAdapter
         binding.recyclerView.setHasFixedSize(true)
     }
-
 }

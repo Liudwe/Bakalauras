@@ -19,7 +19,6 @@ import io.realm.kotlin.where
 import io.realm.mongodb.User
 import io.realm.mongodb.sync.SyncConfiguration
 import io.unlokk.onboarding.*
-import io.unlokk.onboarding.entities.LoanRealmInfo
 import io.unlokk.onboarding.entities.RealmLoanDetails
 import org.bson.types.ObjectId
 import java.util.*
@@ -70,5 +69,4 @@ class DashboardFragment : Fragment() {
         binding.recyclerView.adapter = adapter
         binding.recyclerView.setHasFixedSize(true)
     }
-
 }
