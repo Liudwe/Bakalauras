@@ -2,7 +2,6 @@ package io.unlokk.onboarding.entities
 
 import io.realm.RealmObject
 import io.realm.annotations.PrimaryKey
-import io.unlokk.onboarding.data.LoanPaymentInfo
 import org.bson.types.ObjectId
 import java.time.LocalDate
 import java.util.*

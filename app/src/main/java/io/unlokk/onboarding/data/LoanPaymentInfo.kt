@@ -7,12 +7,10 @@ import org.bson.types.ObjectId
 import org.joda.time.DateTime
 import java.util.*
 
-/*@RealmClass(embedded = true)*/
-open class LoanPaymentInfo(
-    @PrimaryKey
-    var _id: ObjectId = ObjectId(),
+@RealmClass(embedded = true)
+open class LoanPaymentInfo2(
     var endDate: Date = Date(),
     var paidDate: Date = Date(),
     var status: String = "Not paid",
-    var _partition: String = ""
-): RealmObject() { }
+   /* var _partition: String = ""*/
+): RealmObject()

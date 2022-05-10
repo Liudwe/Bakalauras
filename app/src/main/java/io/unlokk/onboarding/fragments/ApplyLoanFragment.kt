@@ -25,10 +25,10 @@ import io.realm.mongodb.sync.SyncConfiguration
 import io.unlokk.onboarding.LoanIssuanceDetailsAdapter
 import io.unlokk.onboarding.MainViewModel
 import io.unlokk.onboarding.app
-import io.unlokk.onboarding.data.LoanPaymentInfo
+import io.unlokk.onboarding.data.LoanPaymentInfo2
 import io.unlokk.onboarding.data.OptionListData
 import io.unlokk.onboarding.entities.RealmLoanDetails
-import io.unlokk.onboarding.entities.RealmLoanDetails3
+import io.unlokk.onboarding.entities.RealmLoanDetails4
 import io.unlokk.onboarding.entities.SliderConfiguration
 import io.unlokk.onboarding.setDivider
 import org.bson.types.ObjectId
@@ -60,13 +60,13 @@ class ApplyLoanFragment : Fragment() {
         setupRecyclerView()
 
         binding.confirmationButton.setOnClickListener {
-            val testObj = RealmList<LoanPaymentInfo>()
+            val testObj = RealmList<LoanPaymentInfo2>()
             for (i in 1..binding.termSlider.currentValue) // loop to create list of objects of loan payment end dates
                 testObj.add(
-                    LoanPaymentInfo(
+                    LoanPaymentInfo2(
                         endDate = DateTime.now().plusMonths(i).toDate(),
                         paidDate = Date(),
-                        _partition = user?.id.toString()
+                        /*_partition = user?.id.toString()*/
                     )
                 )
             //val endDate = DateTime.now().plusMonths(binding.termSlider.currentValue).toDate()
@@ -76,7 +76,7 @@ class ApplyLoanFragment : Fragment() {
                 nextLoanPayment = mainViewModel.monthlyPayment.toInt(),
                 _partition = user?.id.toString()
             )*/
-            val testTemp = RealmLoanDetails3(
+            val testTemp = RealmLoanDetails4(
                 fullLoan = mainViewModel.fullAmount,
                 loanTaken = binding.amountSlider.currentValue.toDouble(),
                 term = binding.termSlider.currentValue,
