@@ -1,30 +1,50 @@
 package io.unlokk.onboarding
 
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.example.intern.R
 import io.realm.OrderedRealmCollection
+import io.realm.Realm
 import io.realm.RealmRecyclerViewAdapter
-import io.unlokk.onboarding.entities.RealmLoanDetails
+import io.unlokk.onboarding.entities.RealmLoanDetails4
+import io.unlokk.onboarding.fragments.DashboardFragment
 import java.text.SimpleDateFormat
 import java.util.*
 
-class ActiveLoansAdapter(data: OrderedRealmCollection<RealmLoanDetails>) : RealmRecyclerViewAdapter<RealmLoanDetails, ActiveLoansAdapter.DetailsViewHolder>(data, true) {
+
+class ActiveLoansAdapter(
+data: OrderedRealmCollection<RealmLoanDetails4>,
+val context: Context,
+private val onClick: ((test: String) -> Unit)? = null
+) : RealmRecyclerViewAdapter<RealmLoanDetails4, ActiveLoansAdapter.DetailsViewHolder>(data, true) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailsViewHolder {
         val view: View =
-            LayoutInflater.from(parent.context).inflate(R.layout.adapter_active_loans_item, parent, false)
+            LayoutInflater.from(parent.context)
+                .inflate(R.layout.adapter_active_loans_item, parent, false)
         return DetailsViewHolder(view)
-
     }
 
     override fun onBindViewHolder(holder: DetailsViewHolder, position: Int) {
+        val obj: RealmLoanDetails4? = getItem(position)
+        val objectId = obj?._id.toString()
         val details = getItem(position)
+
         if (details != null) {
             holder.bindValues(details)
+        }
+
+        holder.itemView.setOnClickListener {
+            if (obj != null) {
+                onClick?.invoke(objectId)
+            }
         }
     }
 
@@ -33,11 +53,19 @@ class ActiveLoansAdapter(data: OrderedRealmCollection<RealmLoanDetails>) : Realm
         var paidLoan: TextView = view.findViewById(R.id.repaid_loan)
         var date: TextView = view.findViewById(R.id.next_payment)
         var payment: TextView = view.findViewById(R.id.payment)
+        var loanStatus: TextView = view.findViewById(R.id.loan_status)
+        var loanTerm: TextView = view.findViewById(R.id.loan_term)
+        var loanFullAmountPayment: TextView = view.findViewById(R.id.loan_full_amount_payment)
 
-        fun bindValues(realmLoanDetails: RealmLoanDetails){
+        fun bindValues(realmLoanDetails: RealmLoanDetails4) {
             fullLoan.text = realmLoanDetails.fullLoan.toString()
             paidLoan.text = realmLoanDetails.loanPaid.toString()
-            val dateTemp = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH).parse(realmLoanDetails.date.toString())
+            loanStatus.text = realmLoanDetails.status
+            loanTerm.text = realmLoanDetails.term.toString()
+            loanFullAmountPayment.text = realmLoanDetails.loanTaken.toString()
+            val dateTemp = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH).parse(
+                realmLoanDetails.date.toString()
+            )
             val formattedDateTemp = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH).format(dateTemp)
             date.text = formattedDateTemp
             payment.text = realmLoanDetails.nextLoanPayment.toString()

@@ -19,6 +19,7 @@
         </activity>
         <activity android:name="io.unlokk.onboarding.MainActivity"/>
         <activity android:name="io.unlokk.onboarding.SignUpActivity"/>
+        <activity android:name="io.unlokk.onboarding.LoanDeadlinesActivity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

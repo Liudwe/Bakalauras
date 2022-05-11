@@ -36,7 +36,3 @@ open class RealmLoanDetails(
 ): RealmObject() {
     @PrimaryKey var _id: ObjectId = ObjectId()
 }
-
-
-
-

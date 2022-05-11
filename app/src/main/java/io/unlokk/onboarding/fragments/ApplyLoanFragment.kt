@@ -20,6 +20,8 @@ import com.example.intern.databinding.FragmentApplyLoanBinding
 import dagger.hilt.android.AndroidEntryPoint
 import io.realm.Realm
 import io.realm.RealmList
+import io.realm.RealmRecyclerViewAdapter
+import io.realm.RealmResults
 import io.realm.mongodb.User
 import io.realm.mongodb.sync.SyncConfiguration
 import io.unlokk.onboarding.LoanIssuanceDetailsAdapter
@@ -86,9 +88,6 @@ class ApplyLoanFragment : Fragment() {
             )
             realm.executeTransactionAsync { realm ->
                 realm.insert(testTemp)
-                // Log.d("Tag", user!!.id.toString())
-                //Log.d("Tag", mainViewModel.fullAmount.toString()) //tikrinu ar galiu paimt duomenis is viewmodelio kad galėčiau su jais applyint paskola
-                //Log.d("Tag", mainViewModel.monthlyPayment.toString()) //tikrinu ar galiu paimt duomenis is viewmodelio kad galėčiau su jais applyint paskola
             }
         }
         return view

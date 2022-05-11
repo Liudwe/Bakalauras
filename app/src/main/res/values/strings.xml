@@ -19,6 +19,12 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="loan_taken">Loan taken:</string>
     <string name="repaid_loan">Repaid loan:</string>
-    <string name="next_payment_date">Next payment date:</string>
+    <string name="next_payment_date">Loan taken date:</string>
     <string name="payment_amount">Payment amount:</string>
+    <string name="loan_status">Loan status:</string>
+    <string name="loan_term">Loan term:</string>
+    <string name="loan_full_amount">Full loan payment:</string>
+    <string name="loan_end_date">Loan end date:</string>
+    <string name="loan_end_date_status">Status:</string>
+
 </resources>

@@ -7,6 +7,7 @@ import io.unlokk.onboarding.data.LoanPaymentInfo2
 import org.bson.types.ObjectId
 import java.util.*
 
+
 open class RealmLoanDetails4(
     var fullLoan: Double = 0.00,
     var loanTaken: Double = 0.00,
