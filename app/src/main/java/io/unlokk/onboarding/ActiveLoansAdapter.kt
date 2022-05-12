@@ -1,28 +1,26 @@
 package io.unlokk.onboarding
 
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.recyclerview.widget.RecyclerView
 import com.example.intern.R
 import io.realm.OrderedRealmCollection
-import io.realm.Realm
 import io.realm.RealmRecyclerViewAdapter
+import io.realm.RealmResults
 import io.unlokk.onboarding.entities.RealmLoanDetails4
-import io.unlokk.onboarding.fragments.DashboardFragment
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class ActiveLoansAdapter(
-data: OrderedRealmCollection<RealmLoanDetails4>,
-val context: Context,
-private val onClick: ((test: String) -> Unit)? = null
+    data: OrderedRealmCollection<RealmLoanDetails4>,
+    val context: Context,
+    private val onClick: ((test: String) -> Unit)? = null
 ) : RealmRecyclerViewAdapter<RealmLoanDetails4, ActiveLoansAdapter.DetailsViewHolder>(data, true) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DetailsViewHolder {
@@ -42,7 +40,7 @@ private val onClick: ((test: String) -> Unit)? = null
         }
 
         holder.itemView.setOnClickListener {
-            if (obj != null) {
+            if (obj != null && obj.status!= "Not approved") {
                 onClick?.invoke(objectId)
             }
         }
@@ -58,11 +56,15 @@ private val onClick: ((test: String) -> Unit)? = null
         var loanFullAmountPayment: TextView = view.findViewById(R.id.loan_full_amount_payment)
 
         fun bindValues(realmLoanDetails: RealmLoanDetails4) {
-            fullLoan.text = realmLoanDetails.fullLoan.toString()
-            paidLoan.text = realmLoanDetails.loanPaid.toString()
+            val df = DecimalFormat("#.##")
+            df.roundingMode = RoundingMode.UP
+            val toDecimal = realmLoanDetails.loanPaid
+
+            fullLoan.text = realmLoanDetails.loanTaken.toString()
+            paidLoan.text = df.format(toDecimal)
             loanStatus.text = realmLoanDetails.status
             loanTerm.text = realmLoanDetails.term.toString()
-            loanFullAmountPayment.text = realmLoanDetails.loanTaken.toString()
+            loanFullAmountPayment.text = realmLoanDetails.fullLoan.toString()
             val dateTemp = SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH).parse(
                 realmLoanDetails.date.toString()
             )
@@ -71,7 +73,6 @@ private val onClick: ((test: String) -> Unit)? = null
             payment.text = realmLoanDetails.nextLoanPayment.toString()
         }
     }
-
 }
 
 

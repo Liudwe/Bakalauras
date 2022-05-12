@@ -28,7 +28,6 @@
         android:fontFamily="@font/ttnorms_regular"
         android:textColor="@color/black"
         android:textSize="14sp"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.5"
@@ -201,5 +200,5 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintWidth_percent="0.5"
         tools:text="0€" />
-    
+
 </androidx.constraintlayout.widget.ConstraintLayout>

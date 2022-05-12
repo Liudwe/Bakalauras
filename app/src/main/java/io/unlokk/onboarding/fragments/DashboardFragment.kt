@@ -23,13 +23,14 @@ import io.unlokk.onboarding.entities.RealmLoanDetails4
 
 
 @AndroidEntryPoint
-class DashboardFragment : Fragment(), ClickEventHandler {
+class DashboardFragment : Fragment()/*, ClickEventHandler*/ {
     private var user: User? = null
     private lateinit var realm: Realm
     private var userRealm: Realm? = null
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ActiveLoansAdapter
     private lateinit var binding: FragmentDashboardBinding
+    var loanList: RealmResults<RealmLoanDetails4>? = null
     private val activeLoansViewModel: MainViewModel by activityViewModels()
 
     override fun onStart() {
@@ -42,11 +43,34 @@ class DashboardFragment : Fragment(), ClickEventHandler {
 
         Realm.getInstanceAsync(config, object : Realm.Callback() {
             override fun onSuccess(realm: Realm) {
-                val loanList: RealmResults<RealmLoanDetails4> =
+                loanList =
                     realm.where<RealmLoanDetails4>().findAll().sort("date", Sort.DESCENDING)
-                setUpRecyclerView(loanList)
+                (loanList)?.let { setUpRecyclerView(it) }
             }
         })
+
+        binding.allLoans.setOnClickListener {
+            Realm.getInstanceAsync(config, object : Realm.Callback() {
+                override fun onSuccess(realm: Realm) {
+                    loanList =
+                        realm.where<RealmLoanDetails4>().findAll().sort("date", Sort.DESCENDING)
+                    Log.d("tag", loanList.toString())
+                    adapter.updateData(loanList)
+                }
+            })
+        }
+
+        binding.activeLoans.setOnClickListener {
+            Realm.getInstanceAsync(config, object : Realm.Callback() {
+                override fun onSuccess(realm: Realm) {
+                    loanList =
+                        realm.where<RealmLoanDetails4>().containsValue("status", "Approved")
+                            .findAll().sort("date", Sort.DESCENDING)
+                    Log.d("tag", loanList.toString())
+                    adapter.updateData(loanList)
+                }
+            })
+        }
     }
 
     override fun onCreateView(
@@ -66,16 +90,11 @@ class DashboardFragment : Fragment(), ClickEventHandler {
             requireContext(),
             onClick = { test ->
                 requireActivity().supportFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container, LoanPaymentDatesFragment.newInstance(test)).commit()
+                    .replace(R.id.fragment_container, LoanPaymentDatesFragment.newInstance(test))
+                    .commit()
             })
         binding.recyclerView.layoutManager = LinearLayoutManager(activity?.applicationContext)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.setHasFixedSize(true)
-    }
-
-    override fun forwardClick(holder: View) {
-        val transaction = parentFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragment_container, LoanPaymentDatesFragment())
-        transaction.commit()
     }
 }

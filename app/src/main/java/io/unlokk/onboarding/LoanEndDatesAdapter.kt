@@ -2,6 +2,7 @@ package io.unlokk.onboarding
 
 import android.app.AlertDialog
 import android.content.Context
+import android.graphics.Color
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,11 +21,13 @@ import java.util.*
 class LoanEndDatesAdapter(
     private val context: Context, // Kuriame fragment'e/activity naudoju
     private var loanPaymentInfo: List<LoanPaymentInfo2> = emptyList(),
-    var onItemClick:((LoanPaymentInfo2) -> Unit)? = null
+    private val onClick: ((position: Int) -> Unit)? = null
 ) : RecyclerView.Adapter<LoanEndDatesAdapter.ViewHolder>() {
+
     inner class ViewHolder(bind: AdapterLoanPaymentEndDatesItemBinding) :
         RecyclerView.ViewHolder(bind.root) {
         var binding: AdapterLoanPaymentEndDatesItemBinding = bind
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -44,15 +47,15 @@ class LoanEndDatesAdapter(
             loanPaymentEndDate.text = formattedDateTemp.toString()
             loanPaymentEndDateStatus.text = item.status
         }
+        if(item.status == "Paid")
+            holder.itemView.setBackgroundColor(Color.GREEN)
+        else if(item.status == "Not paid" && Date().after(item.endDate))
+            holder.itemView.setBackgroundColor(Color.RED)
+        else
+            holder.itemView.setBackgroundColor(Color.YELLOW)
 
-        class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val email: Date = item.endDate
-
-            init {
-                itemView.setOnClickListener {
-                    onItemClick?.invoke(loanPaymentInfo[adapterPosition])
-                }
-            }
+        holder.itemView.setOnClickListener {
+            onClick?.invoke(position)
         }
     }
 
