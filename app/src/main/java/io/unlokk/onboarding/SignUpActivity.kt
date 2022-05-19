@@ -8,51 +8,38 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.intern.databinding.ActivityLoginBinding
 import com.example.intern.databinding.ActivitySignupBinding
 
-class SignUpActivity: AppCompatActivity() {
-        private lateinit var binding: ActivitySignupBinding
+class SignUpActivity : AppCompatActivity() {
+    private lateinit var binding: ActivitySignupBinding
 
-        override fun onCreate(savedInstanceState: Bundle?) {
-            super.onCreate(savedInstanceState)
-            binding = ActivitySignupBinding.inflate(layoutInflater)
-            setContentView(binding.root)
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        binding = ActivitySignupBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        registerButton()
+        returnBackButton()
+    }
 
-            binding.signupButton.setOnClickListener {
-                val name = binding.nameEditText.text
-                val password_text = binding.pswEditText.text
-                /*val email_text = binding.emailEditText.text
-                val email: String = email_text.toString().trim()
-                val emailPattern = Regex("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")
+    fun registerButton() {
+        binding.signupButton.setOnClickListener {
+            val name = binding.nameEditText.text
+            val password_text = binding.pswEditText.text
 
-                if (email.matches(emailPattern)) {
-                    Toast.makeText(
-                        getApplicationContext(),
-                        password_text.toString(),
-                        Toast.LENGTH_SHORT
-                    ).show();
+            app.emailPassword.registerUserAsync(name.toString(), password_text.toString()) {
+                if (it.isSuccess) {
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    Log.d("Tag", "User successfully registered")
                 } else {
-                    Toast.makeText(
-                        getApplicationContext(),
-                        "Invalid email address",
-                        Toast.LENGTH_SHORT
-                    ).show();
+                    startActivity(Intent(this, LoginActivity::class.java))
+                    Log.d("Tag", "Could not register user.")
                 }
-                Toast.makeText(this@SignUpActivity, email_text, Toast.LENGTH_SHORT).show()
-                Log.d("Tag", email_text.toString())*/
-
-                app.emailPassword.registerUserAsync(name.toString(), password_text.toString()) {
-                    if(it.isSuccess){
-                        startActivity(Intent(this, LoginActivity::class.java))
-                        Log.d("Tag", "User successfully registered")
-                    } else {
-                        startActivity(Intent(this, LoginActivity::class.java))
-                        Log.d("Tag", "Could not register user.")
-                    }
-                }
-            }
-
-            binding.backButton.setOnClickListener {
-                val intent = Intent(this, LoginActivity::class.java)
-                startActivity(intent)
             }
         }
     }
+
+    fun returnBackButton(){
+        binding.backButton.setOnClickListener {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+        }
+    }
+}

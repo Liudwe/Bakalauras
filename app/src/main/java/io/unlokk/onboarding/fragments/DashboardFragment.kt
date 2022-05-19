@@ -41,36 +41,9 @@ class DashboardFragment : Fragment()/*, ClickEventHandler*/ {
             .waitForInitialRemoteData()
             .build()
 
-        Realm.getInstanceAsync(config, object : Realm.Callback() {
-            override fun onSuccess(realm: Realm) {
-                loanList =
-                    realm.where<RealmLoanDetails4>().findAll().sort("date", Sort.DESCENDING)
-                (loanList)?.let { setUpRecyclerView(it) }
-            }
-        })
-
-        binding.allLoans.setOnClickListener {
-            Realm.getInstanceAsync(config, object : Realm.Callback() {
-                override fun onSuccess(realm: Realm) {
-                    loanList =
-                        realm.where<RealmLoanDetails4>().findAll().sort("date", Sort.DESCENDING)
-                    Log.d("tag", loanList.toString())
-                    adapter.updateData(loanList)
-                }
-            })
-        }
-
-        binding.activeLoans.setOnClickListener {
-            Realm.getInstanceAsync(config, object : Realm.Callback() {
-                override fun onSuccess(realm: Realm) {
-                    loanList =
-                        realm.where<RealmLoanDetails4>().containsValue("status", "Approved")
-                            .findAll().sort("date", Sort.DESCENDING)
-                    Log.d("tag", loanList.toString())
-                    adapter.updateData(loanList)
-                }
-            })
-        }
+        loadLoans(config)
+        loadAllLoansButton(config)
+        loadActiveLoansButton(config)
     }
 
     override fun onCreateView(
@@ -96,5 +69,44 @@ class DashboardFragment : Fragment()/*, ClickEventHandler*/ {
         binding.recyclerView.layoutManager = LinearLayoutManager(activity?.applicationContext)
         binding.recyclerView.adapter = adapter
         binding.recyclerView.setHasFixedSize(true)
+        binding.containerView.visibility = View.VISIBLE
+        binding.progress.visibility = View.GONE
+    }
+
+    private fun loadActiveLoansButton(config: SyncConfiguration) {
+        binding.activeLoans.setOnClickListener {
+            Realm.getInstanceAsync(config, object : Realm.Callback() {
+                override fun onSuccess(realm: Realm) {
+                    loanList =
+                        realm.where<RealmLoanDetails4>().containsValue("status", "Approved")
+                            .findAll().sort("date", Sort.DESCENDING)
+                    Log.d("tag", loanList.toString())
+                    adapter.updateData(loanList)
+                }
+            })
+        }
+    }
+
+    private fun loadAllLoansButton(config: SyncConfiguration) {
+        binding.allLoans.setOnClickListener {
+            Realm.getInstanceAsync(config, object : Realm.Callback() {
+                override fun onSuccess(realm: Realm) {
+                    loanList =
+                        realm.where<RealmLoanDetails4>().findAll().sort("date", Sort.DESCENDING)
+                    Log.d("tag", loanList.toString())
+                    adapter.updateData(loanList)
+                }
+            })
+        }
+    }
+
+    private fun loadLoans(config: SyncConfiguration) {
+        Realm.getInstanceAsync(config, object : Realm.Callback() {
+            override fun onSuccess(realm: Realm) {
+                loanList =
+                    realm.where<RealmLoanDetails4>().findAll().sort("date", Sort.DESCENDING)
+                (loanList)?.let { setUpRecyclerView(it) }
+            }
+        })
     }
 }

@@ -3,44 +3,34 @@ package io.unlokk.onboarding
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.intern.databinding.ActivityLoginBinding
 import io.realm.mongodb.Credentials
 import kotlin.math.log
+import kotlin.math.sign
 
 
-class LoginActivity: AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
+        loginUserButton()
+        signUpButton()
         setContentView(binding.root)
+    }
 
-        binding.loginButton.setOnClickListener{
+    fun loginUserButton() {
+        binding.loginButton.setOnClickListener {
             val password_text = binding.pswEditText.text.toString()
             val username_text = binding.usernameEditText.text.toString()
 
-            /*val email_text = binding.emailEditText.text.toString()
-            val email: String = email_text.toString().trim()
-            val emailPattern = Regex("[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+")
-
-            if (email.matches(emailPattern))
-            {
-                Toast.makeText(getApplicationContext(), password_text, Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
-                Toast.makeText(getApplicationContext(), "Invalid email address", Toast.LENGTH_SHORT).show();
-            }
-
-            Toast.makeText(this@LoginActivity, email_text, Toast.LENGTH_SHORT).show()
-            Log.d("Tag", email_text)*/
-
             val creds = Credentials.emailPassword(username_text, password_text)
             app.loginAsync(creds) {
-                if(!it.isSuccess) {
+                if (!it.isSuccess) {
                     Log.d("Tag", "User does not exist")
                 } else {
                     Log.d("Tag", "User successfully logged on")
@@ -48,11 +38,15 @@ class LoginActivity: AppCompatActivity() {
                     startActivity(intent)
                 }
             }
+            binding.containerView.visibility = View.GONE
+            binding.progress.visibility = View.VISIBLE
         }
+    }
 
-       binding.signupButton.setOnClickListener{
-           val intent = Intent(this, SignUpActivity::class.java)
-           startActivity(intent)
-       }
+    fun signUpButton() {
+        binding.signupButton.setOnClickListener {
+            val intent = Intent(this, SignUpActivity::class.java)
+            startActivity(intent)
+        }
     }
 }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.intern.R
 import io.realm.OrderedRealmCollection
@@ -42,6 +43,13 @@ class ActiveLoansAdapter(
         holder.itemView.setOnClickListener {
             if (obj != null && obj.status!= "Not approved") {
                 onClick?.invoke(objectId)
+            }
+            else if (obj != null && obj.status == "Not approved") {
+                Toast.makeText(
+                    context,
+                    "This loan has not yet been approved.",
+                    Toast.LENGTH_LONG
+                ).show()
             }
         }
     }

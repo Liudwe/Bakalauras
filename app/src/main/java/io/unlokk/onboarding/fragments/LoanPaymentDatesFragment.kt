@@ -54,28 +54,9 @@ class LoanPaymentDatesFragment : Fragment() {
         super.onCreate(savedInstanceState)
         val data = arguments?.getString(LOAN_INFO)
         objectId = ObjectId(data)
-
         binding = FragmentLoanPaymentDatesBinding.inflate(inflater, container, false)
         val view = binding.root
-
-        user = app.currentUser()
-        val partitionValue: String = user?.id.toString()
-        val config = SyncConfiguration.Builder(user, partitionValue)
-            .waitForInitialRemoteData()
-            .build()
-
-        Realm.getInstanceAsync(config, object : Realm.Callback() {
-            override fun onSuccess(realm: Realm) {
-                loanList =
-                    realm.where<RealmLoanDetails4>().containsValue("_id", objectId).findFirst()
-/*                Log.d("loanlistas", loanList.toString())
-                Log.d("specifinė reiškmė", loanList?.endDateList?.get(1).toString())
-                Log.d("visas listas", loanList?.endDateList.toString())*/
-
-                loanList?.let { setupRecyclerView(it.endDateList) }
-            }
-        })
-
+        loadRealmLoanEndDates()
         return view
     }
 
@@ -93,7 +74,7 @@ class LoanPaymentDatesFragment : Fragment() {
         adapter = LoanEndDatesAdapter(requireContext(), endDateList,
             onClick = { data ->
                 if (loanList!!.endDateList[data]!!.status == "Not paid")
-                    alertDialog(data)
+                    alertDialogForPayment(data)
                 else {
                     val dateTemp =
                         SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH).parse(
@@ -115,7 +96,7 @@ class LoanPaymentDatesFragment : Fragment() {
         binding.recyclerView.setHasFixedSize(true)
     }
 
-    fun alertDialog(data: Int) {
+    fun alertDialogForPayment(data: Int) {
         val dialog = AlertDialog.Builder(context)
         Log.d("tag", data.toString())
         dialog.setTitle("Loan payment")
@@ -130,42 +111,53 @@ class LoanPaymentDatesFragment : Fragment() {
             Realm.getInstanceAsync(config, object : Realm.Callback() {
                 override fun onSuccess(realm: Realm) {
                     var paidAmount = 0
-                    loanListEdit =
+                    loanList =
                         realm.where<RealmLoanDetails4>().containsValue("_id", objectId).findFirst()
-                    if (loanListEdit != null) {
+                    if (loanList != null) {
                         realm.beginTransaction()
 
                         val df = DecimalFormat("#.##")
                         df.roundingMode = RoundingMode.DOWN
                         val loanPaidToDecimal: Double =
-                            loanListEdit!!.loanPaid + loanListEdit!!.nextLoanPayment
-                        loanListEdit!!.loanPaid = df.format(loanPaidToDecimal).toDouble()
-                        loanListEdit!!.endDateList[data]?.paidDate = Date()
-                        loanListEdit!!.endDateList[data]?.status = "Paid"
-                        for (item in loanListEdit!!.endDateList) {
+                            loanList!!.loanPaid + loanList!!.nextLoanPayment
+                        loanList!!.loanPaid = df.format(loanPaidToDecimal).toDouble()
+                        loanList!!.endDateList[data]?.paidDate = Date()
+                        loanList!!.endDateList[data]?.status = "Paid"
+                        for (item in loanList!!.endDateList) {
                             if (item.status == "Paid")
                                 paidAmount += 1
                         }
-                        if (paidAmount == loanListEdit!!.endDateList.size) {
-                            loanListEdit!!.status = "Repaid"
-                            loanListEdit!!.loanPaid = loanListEdit!!.fullLoan
+                        if (paidAmount == loanList!!.endDateList.size) {
+                            loanList!!.status = "Repaid"
+                            loanList!!.loanPaid = loanList!!.fullLoan
                         }
                     }
-                    adapter.updateList(loanListEdit!!.endDateList)
+                    adapter.updateList(loanList!!.endDateList)
                     realm.commitTransaction()
                     realm.close()
                 }
-                /*Log.d("specifinė reiškmė", loanList?.endDateList?.get(1).toString())
-                Log.d("visas listas", loanList?.endDateList.toString())*/
             })
         })
-/*    dialog.setNegativeButton("No", DialogInterface.OnClickListener
-    {
-        _, _ ->
-    })*/
         dialog.setNeutralButton("No", DialogInterface.OnClickListener
         { _, _ ->
         })
         dialog.show()
+    }
+
+    fun loadRealmLoanEndDates() {
+        user = app.currentUser()
+        val partitionValue: String = user?.id.toString()
+        val config = SyncConfiguration.Builder(user, partitionValue)
+            .waitForInitialRemoteData()
+            .build()
+
+        Realm.getInstanceAsync(config, object : Realm.Callback() {
+            override fun onSuccess(realm: Realm) {
+                loanList =
+                    realm.where<RealmLoanDetails4>().containsValue("_id", objectId).findFirst()
+
+                loanList?.let { setupRecyclerView(it.endDateList) }
+            }
+        })
     }
 }

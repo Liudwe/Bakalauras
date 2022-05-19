@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -39,16 +40,13 @@ import org.joda.time.LocalDate
 import java.time.temporal.TemporalQueries.localDate
 import java.util.*
 
-
 @AndroidEntryPoint
 class ApplyLoanFragment : Fragment() {
-
     private lateinit var realm: Realm
     private var user: User? = null
     private lateinit var recyclerAdapter: LoanIssuanceDetailsAdapter
     private lateinit var binding: FragmentApplyLoanBinding
     private val mainViewModel: MainViewModel by activityViewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -71,13 +69,6 @@ class ApplyLoanFragment : Fragment() {
                         /*_partition = user?.id.toString()*/
                     )
                 )
-            //val endDate = DateTime.now().plusMonths(binding.termSlider.currentValue).toDate()
-            /*val realmLoanInfo = RealmLoanDetails(
-                fullLoan = mainViewModel.fullAmount.toInt(),
-                loanPaid = 200,
-                nextLoanPayment = mainViewModel.monthlyPayment.toInt(),
-                _partition = user?.id.toString()
-            )*/
             val testTemp = RealmLoanDetails4(
                 fullLoan = mainViewModel.fullAmount,
                 loanTaken = binding.amountSlider.currentValue.toDouble(),
@@ -89,6 +80,11 @@ class ApplyLoanFragment : Fragment() {
             realm.executeTransactionAsync { realm ->
                 realm.insert(testTemp)
             }
+            Toast.makeText(
+                context,
+                "Your loan request has been sent. Wait for it to be approved.",
+                Toast.LENGTH_LONG
+            ).show()
         }
         return view
     }

@@ -32,11 +32,11 @@
             android:layout_height="30dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
+            android:layout_marginTop="80dp"
             android:fontFamily="@font/ttnorms_regular"
             android:text="@string/name"
             android:textAlignment="center"
             android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@id/name_editText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -50,68 +50,10 @@
             android:ems="10"
             android:fontFamily="@font/ttnorms_regular"
             android:inputType="textEmailAddress"
-            app:layout_constraintBottom_toTopOf="@id/surname_textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/name_textView" />
 
-        <TextView
-            android:id="@+id/surname_textView"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:fontFamily="@font/ttnorms_regular"
-            android:text="@string/surname"
-            android:textAlignment="center"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@id/surname_editText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_editText" />
-
-        <EditText
-            android:id="@+id/surname_editText"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:ems="10"
-            android:fontFamily="@font/ttnorms_regular"
-            android:inputType="textEmailAddress"
-            app:layout_constraintBottom_toTopOf="@id/email_textView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/surname_textView" />
-
-        <TextView
-            android:id="@+id/email_textView"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:fontFamily="@font/ttnorms_regular"
-            android:text="@string/email"
-            android:textAlignment="center"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@id/email_editText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/surname_editText" />
-
-        <EditText
-            android:id="@+id/email_editText"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:ems="10"
-            android:fontFamily="@font/ttnorms_regular"
-            android:inputType="textEmailAddress"
-            app:layout_constraintBottom_toTopOf="@id/password_textView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_textView" />
 
         <TextView
             android:id="@+id/password_textView"
@@ -119,6 +61,7 @@
             android:layout_height="30dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
+            android:layout_marginTop="50dp"
             android:fontFamily="@font/ttnorms_regular"
             android:text="@string/password"
             android:textAlignment="center"
@@ -126,7 +69,7 @@
             app:layout_constraintBottom_toTopOf="@id/psw_editText"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/email_editText" />
+            app:layout_constraintTop_toBottomOf="@id/name_editText" />
 
         <EditText
             android:id="@+id/psw_editText"
@@ -137,47 +80,18 @@
             android:ems="10"
             android:fontFamily="@font/ttnorms_regular"
             android:inputType="textPassword"
-            app:layout_constraintBottom_toTopOf="@id/passwordConf_textView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/password_textView" />
 
-        <TextView
-            android:id="@+id/passwordConf_textView"
-            android:layout_width="0dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:fontFamily="@font/ttnorms_regular"
-            android:text="@string/passwordConf"
-            android:textAlignment="center"
-            android:textSize="17sp"
-            app:layout_constraintBottom_toTopOf="@id/pswConf_editText"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/psw_editText" />
-
-        <EditText
-            android:id="@+id/pswConf_editText"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:ems="10"
-            android:fontFamily="@font/ttnorms_regular"
-            android:inputType="textPassword"
-            app:layout_constraintBottom_toTopOf="@id/signup_button"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passwordConf_textView" />
 
         <Button
             android:id="@+id/signup_button"
             android:layout_width="0dp"
             android:layout_height="58dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="30dp"
             android:layout_marginEnd="32dp"
+            android:layout_marginBottom="50dp"
             android:background="@drawable/button"
             android:fontFamily="@font/ttnorms_regular"
             android:text="@string/signup_button"
@@ -187,7 +101,7 @@
             app:backgroundTint="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/pswConf_editText" />
+            app:layout_constraintBottom_toTopOf="@id/back_button"/>
 
         <Button
             android:id="@+id/back_button"
@@ -195,6 +109,7 @@
             android:layout_height="58dp"
             android:layout_marginStart="32dp"
             android:layout_marginEnd="32dp"
+            android:layout_marginTop="20dp"
             android:background="@drawable/button"
             android:fontFamily="@font/ttnorms_regular"
             android:text="@string/back_button"
@@ -204,8 +119,9 @@
             app:backgroundTint="@null"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/signup_button"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toTopOf="@id/signup_button"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginBottom="80dp"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
